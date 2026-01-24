@@ -5,7 +5,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import permission_required
 from bookshelf.models import Book
 from django.forms import BookForm
-from bookshelf.forms import BookSearchForm
+from bookshelf.forms import ExampleForm
 
 # Create your views here.
 
@@ -56,7 +56,7 @@ def view_book(request, pk):
 
 # searching book
 def book_search(request):
-    form = BookSearchForm(request.GET or None)
+    form = ExampleForm(request.GET or None)
     books = Book.objects.none()  # default empty queryset
     if form.is_valid():
         title_query = form.cleaned_data['title']
