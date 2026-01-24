@@ -182,3 +182,12 @@ STATIC_URL = 'static/'
 # X_FRAME_OPTIONS = 'DENY' prevents clickjacking
 # CSRF_COOKIE_SECURE ensures CSRF cookie sent over HTTPS only
 
+
+#  Implementing HTTPS and Secure Redirects in Django
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+# Additional HTTP security headers
+X_FRAME_OPTIONS = 'DENY'  # Prevent clickjacking
+SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevent MIME type sniffing
+SECURE_BROWSER_XSS_FILTER = True  # Enable XSS filter in browsers
