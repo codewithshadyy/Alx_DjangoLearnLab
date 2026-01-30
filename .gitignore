@@ -1,16 +1,35 @@
-# Virtual environment
-alx_env/
+# ======================
+# Python
+# ======================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# ======================
+# Virtual environments
+# ======================
 venv/
 env/
+alx_venv/
+*/alx_venv/
+*/venv/
+*/env/
 
-# Python cache
-__pycache__/
-*.pyc
-
-# Django files
+# ======================
+# Django
+# ======================
 db.sqlite3
+*.log
+staticfiles/
 
-# OS files
+# ======================
+# IDE
+# ======================
+.vscode/
+.idea/
+
+# ======================
+# OS
+# ======================
 .DS_Store
-
-db.sqlite3
+Thumbs.db
