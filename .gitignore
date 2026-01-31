@@ -1,1 +1,43 @@
+<<<<<<< HEAD
 db.sqlite3
+=======
+# ======================
+# Python
+# ======================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# ======================
+# Virtual environments
+# ======================
+venv/
+env/
+alx_venv/
+*/alx_venv/
+*/venv/
+*/env/
+
+# ======================
+# Django
+# ======================
+db.sqlite3
+*.log
+staticfiles/
+
+# ======================
+# IDE
+# ======================
+.vscode/
+.idea/
+
+# ======================
+# OS
+# ======================
+.DS_Store
+Thumbs.db
+
+
+koe/
+advanced_features_and_security/koe/
+>>>>>>> cb53f7b00d4f0bf4b9806275c6cd1c1280b47731
