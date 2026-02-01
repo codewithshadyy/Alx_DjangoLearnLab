@@ -1,6 +1,5 @@
-<<<<<<< HEAD
+
 db.sqlite3
-=======
 # ======================
 # Python
 # ======================
@@ -40,4 +39,3 @@ Thumbs.db
 
 koe/
 advanced_features_and_security/koe/
->>>>>>> cb53f7b00d4f0bf4b9806275c6cd1c1280b47731
