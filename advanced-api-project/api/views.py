@@ -1,6 +1,6 @@
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated, AllowAny
-from rest_framework import filters
+from rest_framework.filters import SearchFilter, OrderingFilter
 from .models import Book
 from .serializers import BookSerializer
 from django_filters.rest_framework import DjangoFilterBackend
@@ -11,23 +11,9 @@ from  django_filters import rest_framework
 class BookListView(generics.ListAPIView):
     
     """
-    Lists all books with support for:
-    - Filtering
-    - Searching
-    - Ordering
+    Integrate Django REST Framework’s filtering capabilities to allow users to filter the book list by various attributes like title, author, and publication_year.”
 
-    Filtering fields:
-        - title
-        - publication_year
-        - author (by ID)
 
-    Search fields:
-        - title
-        - author name
-
-    Ordering fields:
-        - title
-        - publication_year
     """
     
     queryset = Book.objects.all()
@@ -35,9 +21,9 @@ class BookListView(generics.ListAPIView):
     permission_classes = [AllowAny]
     
     filter_backends  = [
-        DjangoFilterBackend,
-        filters.SearchFilter,
-        filters.OrderingFilter,
+        rest_framework.DjangoFilterBackend,
+        SearchFilter,
+        OrderingFilter,
     ]
     
       # Filtering configuration
