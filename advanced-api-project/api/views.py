@@ -3,6 +3,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticate
 from rest_framework import filters
 from .models import Book
 from .serializers import BookSerializer
+from django_filters.rest_framework import DjangoFilterBackend
 from  django_filters import rest_framework
 
 # ListView - Retrieves all  books
@@ -34,7 +35,7 @@ class BookListView(generics.ListAPIView):
     permission_classes = [AllowAny]
     
     filter_backends  = [
-        rest_framework.DjangoFilterBackend,
+        DjangoFilterBackend,
         filters.SearchFilter,
         filters.OrderingFilter,
     ]
