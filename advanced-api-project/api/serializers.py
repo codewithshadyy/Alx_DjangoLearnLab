@@ -13,7 +13,7 @@ class BookSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Book
-        fields = "__all__"
+        fields = ['id', 'title', 'publication_year', 'author[name]']
         
     def validate_publication(self, value):
         
