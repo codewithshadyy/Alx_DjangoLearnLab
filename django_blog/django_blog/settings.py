@@ -136,6 +136,11 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 
 
+LOGIN_REDIRECT_URL = 'profile'  # where to redirect after login
+LOGOUT_REDIRECT_URL = 'login'   # where to redirect after logout
+
+
+
 
 
 
