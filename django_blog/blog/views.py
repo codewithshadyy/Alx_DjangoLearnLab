@@ -19,7 +19,8 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 
-
+# def home_view(request):
+#     return render(request, 'blog/home.html')
 
 
 def register_view(request):
@@ -62,6 +63,8 @@ class PostListView(ListView):
     template_name = 'blog/post_list.html'
     context_object_name = 'posts'
     ordering = ['-published_date']
+   
+
 
 
 #  View single post (Public)
@@ -100,7 +103,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
     template_name = 'blog/post_confirm_delete.html'
-    success_url = reverse_lazy('post-list')
+    success_url = reverse_lazy('blog:post-list')
 
     def test_func(self):
         post = self.get_object()
