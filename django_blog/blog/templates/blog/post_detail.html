@@ -5,6 +5,29 @@
 <p>{{ object.content }}</p>
 <small>By {{ object.author }} | {{ object.published_date }}</small>
 
+
+<hr>
+<h3>Comments</h3>
+
+{% for comment in object.comments.all %}
+    <div>
+        <p>{{ comment.content }}</p>
+        <small>
+            By {{ comment.author }} | {{ comment.created_at }}
+        </small>
+
+        {% if user == comment.author %}
+            <a href="{% url 'comment-update' comment.pk %}">Edit</a>
+            <a href="{% url 'comment-delete' comment.pk %}">Delete</a>
+        {% endif %}
+    </div>
+    <hr>
+{% empty %}
+    <p>No comments yet.</p>
+{% endfor %}
+
+
+
 {% if user == object.author %}
     <br><br>
     <a href="{% url 'post-update' object.pk %}">Edit</a>
