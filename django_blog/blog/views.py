@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
-
-from .forms import CustomUserCreation, UserUpdateForm, CommentForm
-from .models import Post, Comment
+from django.db.models import Q
+from .forms import CustomUserCreation, UserUpdateForm, CommentForm, PostForm
+from .models import Post, Comment, Tag
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, aauthenticate
 from django.contrib.auth.decorators import login_required
@@ -153,3 +153,32 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def get_success_url(self):
         return reverse_lazy('post-detail', kwargs={'pk': self.object.post.pk})
  
+
+
+# creating a tag view
+class PostByTagListView(ListView):
+    model = Post
+    template_name = 'blog/post_list.html'
+    context_object_name = 'posts'
+
+    def get_queryset(self):
+        tag = get_object_or_404(Tag, name=self.kwargs['tag_name'])
+        return Post.objects.filter(tags=tag)
+
+
+# creating a search view
+
+class SearchResultsView(ListView):
+    model = Post
+    template_name = 'blog/search_results.html'
+    context_object_name = 'posts'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            return Post.objects.filter(
+                Q(title__icontains=query) |
+                Q(content__icontains=query) |
+                Q(tags__name__icontains=query)
+            ).distinct()
+        return Post.objects.none()

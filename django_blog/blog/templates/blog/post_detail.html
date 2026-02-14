@@ -26,6 +26,11 @@
     <p>No comments yet.</p>
 {% endfor %}
 
+<h4>Tags:</h4>
+{% for tag in post.tags.all %}
+    <a href="{% url 'blog:posts-by-tag' tag.name %}">{{ tag.name }}</a>
+{% endfor %}
+
 
 
 {% if user == object.author %}
