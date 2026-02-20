@@ -5,6 +5,9 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.decorators  import permission_classes, api_view
 from rest_framework import status
+from django.contrib.auth import get_user_model
+
+CustomUser = get_user_model()
 
 
 from .models import User
@@ -36,8 +39,8 @@ class ProfileView(generics.RetrieveUpdateAPIView):
 
 
 class FollowUserView(generics.GenericAPIView):
-    queryset = User.objects.all()
-    permission_classes = [IsAuthenticated]
+    queryset = CustomUser.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, user_id):
         user_to_follow = get_object_or_404(User, id=user_id)
@@ -57,8 +60,8 @@ class FollowUserView(generics.GenericAPIView):
 
 # implementing unfollow endpoint
 class UnfollowUserView(generics.GenericAPIView):
-    queryset = User.objects.all()
-    permission_classes = [IsAuthenticated]
+    queryset = CustomUser.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, user_id):
         user_to_unfollow = get_object_or_404(User, id=user_id)
