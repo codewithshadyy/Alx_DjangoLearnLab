@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.response import Response
 from .serializers import PostSerializer, CommentSerializer
 from .models import Post, Comment
 from .permissions import IsOwner
@@ -22,7 +23,22 @@ class CommentViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, IsOwner]
 
     def perform_create(self, serializer):
-        serializer.save(author=self.request.user)   
+        serializer.save(author=self.request.user) 
+        
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def feed_view(request):
+    
+    
+    user = request.user
+    following_users = user.following.all()
+    posts = Post.objects.filter(
+        author__in=following_users
+    ).order_by('-created_at')
+
+    serializer = PostSerializer(posts, many=True)
+    return Response(serializer.data)          
         
         
         
