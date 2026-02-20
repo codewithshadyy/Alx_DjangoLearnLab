@@ -1,4 +1,5 @@
-from rest_framework  import generics
+from rest_framework  import generics, permissions
+from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
@@ -33,35 +34,38 @@ class ProfileView(generics.RetrieveUpdateAPIView):
 
 # implementing follow and unfollow view
 
-@api_view(["POST"])
-@permission_classes([IsAuthenticated])
 
-def follow_user(request, user_id):
-    
-    try:
-        user_to_follow = User.Objects.get(id=user_id)
-        
-    except User.DoesNotExist:
-        return Response({"error":"user not found"}, status=status.HTTP_404_NOT_FOUND)  
-    
-    if request.user == request.user_to_follow:  
-        return Response({"error":"tou cannot follow yourself"}, status=status.HTTP_400_BAD_REQUEST)
-    
-    request.user.following.add(user_to_follow)
-    
-    
-    return Response({"message": f"You are now following {user_to_follow.username}"})
+class FollowUserView(generics.GenericAPIView):
+    queryset = User.objects.all()
+    permission_classes = [IsAuthenticated]
 
+    def post(self, request, user_id):
+        user_to_follow = get_object_or_404(User, id=user_id)
 
-@api_view(["POST"])
-@permission_classes([IsAuthenticated])
+        if user_to_follow == request.user:
+            return Response(
+                {"error": "You cannot follow yourself"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
-def unfollow_user(request, user_id):
-    try:
-        user_to_unfollow = User.objects.get(id=user_id)
-    except User.DoesNotExist:
-        return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+        request.user.following.add(user_to_follow)
 
-    request.user.following.remove(user_to_unfollow)
+        return Response(
+            {"message": "User followed successfully"},
+            status=status.HTTP_200_OK
+        )
 
-    return Response({"message": f"You have unfollowed {user_to_unfollow.username}"})
+# implementing unfollow endpoint
+class UnfollowUserView(generics.GenericAPIView):
+    queryset = User.objects.all()
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, user_id):
+        user_to_unfollow = get_object_or_404(User, id=user_id)
+
+        request.user.following.remove(user_to_unfollow)
+
+        return Response(
+            {"message": "User unfollowed successfully"},
+            status=status.HTTP_200_OK
+        )
