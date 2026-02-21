@@ -112,3 +112,19 @@ class UnlikePostView(generics.GenericAPIView):
 # ...
         
 
+# What Happens Now
+# When a user:
+# Action	Result
+# Likes post	Like created + Notification generated
+# Unlikes post	Like removed
+# Fetch notifications	Gets newest first
+# Already liked	Blocked
+# Not authenticated	Blocked
+#  Example API Calls
+# Like Post
+# POST /posts/3/like/
+# Authorization: Token <token>
+# Unlike Post
+# POST /posts/3/unlike/
+# View Notifications
+# GET /notifications/v
