@@ -76,8 +76,7 @@ class UnlikePostView(generics.GenericAPIView):
     def post(self, request, pk):
         post = generics.get_object_or_404(Post, pk=pk)
 
-        like = Like.objects.filter(user=request.user,post=post
-        )
+        like = Like.objects.get_or_create(user=request.user,post=post)
 
         if not like.exists():
             return Response(
